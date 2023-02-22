@@ -53,7 +53,7 @@ export default function ContactModal() {
 
     if(valid){
       try {
-        const response: any = await fetch('http://localhost:3001/api/contact/contact-form', {
+        const response: any = await fetch('https://climbertravel/api/contact/contact-form', {
           method: 'POST',
           headers: {
             'content-type': 'application/json'
