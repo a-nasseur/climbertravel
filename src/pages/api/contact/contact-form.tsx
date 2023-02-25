@@ -10,7 +10,6 @@ export default async function handler(req: NextApiRequest, res: NextApiResponse<
     if(req.method == 'POST'){
         const { fullName, email, phoneNumber, message } = req.body;
 
-
         // Transporter init
         let transporter = nodemailer.createTransport({
             host: process.env.EMAIL_HOST,
@@ -42,15 +41,16 @@ export default async function handler(req: NextApiRequest, res: NextApiResponse<
 
         }, (err: any, info: any) => {
           if(err){
-            res.status(500).json({
+            return res.status(500).json({
               success: false,
               data: {
-                message: "Erreur lors de l'envoie de votre email"
+                message: "Erreur lors de l'envoie de votre email",
+                error: err.message
               }
             })
           }
           // loggin the email sent object
-          res.status(200).json({
+          return res.status(200).json({
             success: true,
             data: {
               message: 'Email envoyé avec succès',
@@ -64,7 +64,7 @@ export default async function handler(req: NextApiRequest, res: NextApiResponse<
           })
         });
     } else {
-      res.status(400).send({
+      return res.status(400).send({
         message: req.method + ' request not allowed'
       })
     }
